@@ -2,6 +2,12 @@
 {% block title %}Fyyur | Venues{% endblock %}
 {% block content %}
 {% for area in areas %}
+<div>
+	<h3>
+		<a href="/venues"><button class="btn btn-primary btn-lg">Find a venue</button></a>
+		<a href="/venues/create"><button class="btn btn-default btn-lg">Post a venue</button></a>
+	</h3>
+</div>
 <h3>{{ area.city }}, {{ area.state }}</h3>
 	<ul class="items">
 		{% for venue in area.venues %}

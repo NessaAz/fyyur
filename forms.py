@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
-from wtforms.validators import DataRequired, AnyOf, URL
+from wtforms.validators import DataRequired, AnyOf, URL, Regexp
 
 class ShowForm(Form):
     artist_id = StringField(
@@ -17,14 +17,9 @@ class ShowForm(Form):
     )
 
 class VenueForm(Form):
-    name = StringField(
-        'name', validators=[DataRequired()]
-    )
-    city = StringField(
-        'city', validators=[DataRequired()]
-    )
-    state = SelectField(
-        'state', validators=[DataRequired()],
+    name = StringField('name', validators=[DataRequired()])
+    city = StringField('city', validators=[DataRequired()])
+    state = SelectField('state', validators=[DataRequired()],
         choices=[
             ('AL', 'AL'),
             ('AK', 'AK'),
@@ -79,15 +74,9 @@ class VenueForm(Form):
             ('WY', 'WY'),
         ]
     )
-    address = StringField(
-        'address', validators=[DataRequired()]
-    )
-    phone = StringField(
-        'phone'
-    )
-    image_link = StringField(
-        'image_link'
-    )
+    address = StringField('address', validators=[DataRequired()])
+    phone = StringField('phone')
+    image_link = StringField('image_link')
     genres = SelectMultipleField(
         # TODO implement enum restriction
         'genres', validators=[DataRequired()],
@@ -125,6 +114,7 @@ class VenueForm(Form):
     seeking_description = StringField(
         'seeking_description'
     )
+    
 
 
 
@@ -193,11 +183,9 @@ class ArtistForm(Form):
     )
     phone = StringField(
         # TODO implement validation logic for state
-        'phone'
+        'phone', validators=[DataRequired(), Regexp("^[0-9]*$", message="Phone number should only contain digits")]
     )
-    image_link = StringField(
-        'image_link'
-    )
+    image_link = StringField('image_link')
     genres = SelectMultipleField(
         'genres', validators=[DataRequired()],
         choices=[
