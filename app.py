@@ -8,6 +8,7 @@ from flask_wtf import Form
 from forms import *
 from flask_migrate import Migrate
 from datetime import datetime
+import config
 # from flask_script import Manager
 
 
@@ -17,7 +18,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 moment = Moment(app)
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://nessa:123@localhost:5432/fyyur'
+app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 migrate = Migrate(app, db)
@@ -45,7 +46,7 @@ class Venue(db.Model):
   website_link = db.Column(db.String())
   seeking_talent = db.Column(db.Boolean)
   seeking_description = db.Column(db.String())
-  shows = db.relationship('Show', backref="artist", lazy=True)
+  shows = db.relationship('Show', backref="Venue", lazy=True)
 
 
   def __repr__(self):
@@ -66,6 +67,8 @@ class Artist(db.Model):
   image_link = db.Column(db.String(500))
   facebook_link = db.Column(db.String(120))
   website = db.Column(db.String(120))
+  shows = db.relationship('Show', backref="Artist", lazy=True)
+
 
   def __repr__(self):
     return '<Artist {}>'.format(self.name)
